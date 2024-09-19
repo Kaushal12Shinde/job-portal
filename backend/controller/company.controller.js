@@ -2,7 +2,7 @@ import {Company} from "../models/company.models.js";
 
 export const  registerCompany = async (req, res) =>{
     try {
-        const {companyName} = req.body;
+        const {companyName, description , website , loaction} = req.body;
         if(!companyName){
             return res.status(400)
             .json({
@@ -21,6 +21,9 @@ export const  registerCompany = async (req, res) =>{
 
         company = await Company.create({
             name:companyName,
+            description:description,
+            website:website,
+            location:loaction,
             userID:req.id
         })
 
@@ -28,6 +31,7 @@ export const  registerCompany = async (req, res) =>{
         .json({
             message: "Company created successfully",
             status: true,
+            company,
         })
 
     }
@@ -38,14 +42,16 @@ export const  registerCompany = async (req, res) =>{
 
 export const getCompanies = async (req, res)=>{
     try {
-        const userId = req.id;
-        const companies = await Company.find({userId});
+        const userID = req.id;
+        const companies = await Company.find({userID});
         if(!companies){
             return res.status(404).json({
                 message: "No company found",
                 status: false
             })
         }
+
+        console.log(companies);
 
         return  res.status(200).json({
             message: "Company found successfully",
