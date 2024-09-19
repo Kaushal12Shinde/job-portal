@@ -36,7 +36,7 @@ export const  registerCompany = async (req, res) =>{
     }
 }
 
-export const getCompany = async (req, res)=>{
+export const getCompanies = async (req, res)=>{
     try {
         const userId = req.id;
         const companies = await Company.find({userId});
@@ -54,6 +54,56 @@ export const getCompany = async (req, res)=>{
         })
     }
     catch (error) {
+        console.log(error);
+    }
+}
+
+export const getCompanyById = async (req, res) =>{
+    try {
+        const conpandyId = req.params.id;
+        const company = await Company.findById(conpandyId);
+        if(!company){
+            return res.status(404).json({
+                message: "No company found",
+                status: false
+            })
+        }
+
+        return res.status(200).json({
+            message:"Company found successfully",
+            status:true,
+            company
+        })
+    }
+    catch (error){
+        console.log(error);
+    }
+}
+
+export const updateCompany = async (req, res) =>{
+    try{
+        const {name , description, website, loaction} = req.body;
+        const logoFile = req.file;
+
+        const updateData = {name , description, website, loaction};
+
+        const company = await Company.findByIdAndUpdate(req.params.id , updateData , {new:true});
+
+        if(!company){
+            return res.status(404).json({
+                message: "No company found",
+                status: false
+            })
+        }
+
+        return res.status(200).json({
+            message:"Company Updated successfully",
+            status:true,
+            company
+        });
+        
+    }
+    catch(error){
         console.log(error);
     }
 }
