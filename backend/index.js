@@ -5,6 +5,7 @@ import cors from 'cors';
 import connectDB from './utils/db.js'
 import userRoute from './routes/user.routes.js'
 import companyRoute from './routes/company.routes.js'
+import jobRouter from './routes/job.routes.js'
 
 dotEnv.config({});
 
@@ -25,6 +26,7 @@ app.use(cors(corsOptions));
 
 app.use("/api/v1/user", userRoute);
 app.use("/api/v1/company", companyRoute);
+app.use("/api/v1/job",  jobRouter);
 
 
 const PORT = process.env.PORT || 3000;
