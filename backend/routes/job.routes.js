@@ -8,3 +8,5 @@ router.route('/post').post(isAuthenticated , postJob);
 router.route('/get').get(getAllJobs);
 router.route('/get/:id').get(getJobById);
 router.route('/getadminjobs').get(isAuthenticated, getAdminJobs);
+
+export default router; 

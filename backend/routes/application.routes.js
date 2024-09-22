@@ -8,3 +8,5 @@ router.route('/apply/:id').get(isAuthenticated , applyJob);
 router.route('/getAppliedJobs').get(isAuthenticated , getAppliedJobs);
 router.route('/:id/getApplicants').get(isAuthenticated, getApplicants);
 router.route('/status/:id/update').post(isAuthenticated, updateStatus);
+
+export default router; 
