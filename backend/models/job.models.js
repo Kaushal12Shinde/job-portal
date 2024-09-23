@@ -41,11 +41,7 @@ const jobSchema = new mongoose.Schema({
             type:mongoose.Schema.Types.ObjectId,
             ref:"Application",
         }
-    ],
-    status:{
-        type:String,
-        default:"active"
-        },
+    ]
 },{timestamps:true})
 
 export const Job = mongoose.model('Job' , jobSchema);
