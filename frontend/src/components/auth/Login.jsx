@@ -7,16 +7,34 @@ import { Button } from '../ui/button'
 import { Link } from 'react-router-dom'
 
 const Login = () => {
+  const [input, setInput] = useState({
+    email:'',
+    password:'',
+    role:''
+  });
+
+  const changeEventHandler = (e)=>{
+    setInput({...input, [e.target.name]:e.target.value}); 
+  }
+
+  const submitHandler = async (e) => {
+    e.preventDefault();
+    console.log(input);
+  }
+
   return (
     <div>
     <Navbar/>
     <div className='flex items-center justify-center max-w-7xl mx-auto'>
-      <form action="" className='max-w-[550px] border border-clrprime/50 rounded-2xl p-4 my-10'>
+      <form onSubmit={submitHandler} className='max-w-[550px] border border-clrprime/50 rounded-2xl p-4 my-10'>
        <h1 className='font-bold text-xl mb-5'>Login</h1>
        <div className='my-2'>
          <Label>Email</Label>
          <Input
            type="email"
+           name="email"
+          value={input.email}
+          onChange={changeEventHandler}
            placeholder="kaushalshinde@gmail.com"
          />
        </div>
@@ -24,6 +42,8 @@ const Login = () => {
          <Label>Password</Label>
          <Input
            type="password"
+           value={input.password}
+            onChange={changeEventHandler}
            placeholder="******"
          />
        </div>
@@ -34,6 +54,8 @@ const Login = () => {
                  type="radio"
                  name="role"
                  value="student"
+                 checked={input.role === "student"}
+                  onChange={changeEventHandler}
                  className= "cursor-pointer"
              />
              <Label>Student</Label>
@@ -43,6 +65,8 @@ const Login = () => {
                  type="radio"
                  name="role"
                  value="recruiter"
+                 checked={input.role === "recruiter"}
+                  onChange={changeEventHandler}
                  className= "cursor-pointer"
              />
              <Label>Recruiter</Label>
