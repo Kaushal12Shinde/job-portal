@@ -8,6 +8,7 @@ import companyRoute from './routes/company.routes.js'
 import jobRouter from './routes/job.routes.js'
 import applicationRoute from './routes/application.routes.js'
 
+
 dotEnv.config({});
 
 const app = express()
@@ -17,13 +18,14 @@ app.use(cookieParser());
 
 
 const corsOptions = {
-    origin:'http//loaclhost:5173',
+    origin:'http://localhost:5173',
     credentials:true
 }
 
 
 
 app.use(cors(corsOptions));
+connectDB();
 
 app.use("/api/v1/user", userRoute);
 app.use("/api/v1/company", companyRoute);
@@ -33,6 +35,6 @@ app.use("/api/v1/job",  applicationRoute);
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, ()=>{
-    connectDB();
+   
     console.log(`Server is running on port ${PORT}`);
 })

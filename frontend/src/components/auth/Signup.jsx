@@ -2,11 +2,13 @@ import React, { useState } from 'react'
 import Navbar from '../shared/Navbar'
 import { Label } from '../ui/label'
 import { Input } from '../ui/input'
-import { RadioGroup, RadioGroupItem } from '../ui/radio-group'
+import { RadioGroup } from '../ui/radio-group'
 import { Button } from '../ui/button'
 import { Link } from 'react-router-dom'
+import axios from 'axios'
 
 const Signup = () => {
+  const host = 'http://localhost:8000/api/v1/user'
   const [input, setInput] = useState({
     fullname:'',
     email:'',
@@ -26,7 +28,29 @@ const Signup = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    console.log(input);
+    try{
+
+      const formData = new FormData();
+      formData.append('fullname',input.fullname);
+      formData.append('email',input.email);
+      formData.append('password',input.password);
+      formData.append('phoneNumber',input.phoneNumber);
+      formData.append('role',input.role);
+      // if(input.file){
+      //   formData.append('file',input.file);
+      // }
+      const response = await axios.post(`${host}/register`,formData,{
+        headers: {
+          "Content-Type":"multipart/form-data"
+        },
+        withCredentials:true,
+      });
+
+      console.log(response);
+    } 
+    catch{
+      alert('Error');
+    }
   }
 
   return (
