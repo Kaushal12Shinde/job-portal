@@ -4,11 +4,15 @@ import { Label } from '../ui/label'
 import { Input } from '../ui/input'
 import { RadioGroup } from '../ui/radio-group'
 import { Button } from '../ui/button'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import { toast } from 'sonner'
 
 const Signup = () => {
   const host = 'http://localhost:8000/api/v1/user'
+
+  const navigate = useNavigate();
+
   const [input, setInput] = useState({
     fullname:'',
     email:'',
@@ -28,17 +32,16 @@ const Signup = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    try{
-
-      const formData = new FormData();
+    const formData = new FormData();
       formData.append('fullname',input.fullname);
       formData.append('email',input.email);
       formData.append('password',input.password);
       formData.append('phoneNumber',input.phoneNumber);
       formData.append('role',input.role);
-      // if(input.file){
-      //   formData.append('file',input.file);
-      // }
+      if(input.file){
+        formData.append('file',input.file);
+      }
+    try{
       const response = await axios.post(`${host}/register`,formData,{
         headers: {
           "Content-Type":"multipart/form-data"
@@ -46,10 +49,13 @@ const Signup = () => {
         withCredentials:true,
       });
 
-      console.log(response);
+      if(response.data.success){
+        navigate("/login");
+        toast.success(res.data.message);
+      }
     } 
     catch{
-      alert('Error');
+      toast.success(res.data.message);
     }
   }
 
