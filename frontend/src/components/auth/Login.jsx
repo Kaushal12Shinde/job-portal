@@ -4,9 +4,15 @@ import { Label } from '../ui/label'
 import { Input } from '../ui/input'
 import { RadioGroup } from '../ui/radio-group'
 import { Button } from '../ui/button'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+
 
 const Login = () => {
+
+  const host = 'http://localhost:8000/api/v1/user'
+
+  const navigate = useNavigate();
+
   const [input, setInput] = useState({
     email:'',
     password:'',
@@ -19,7 +25,28 @@ const Login = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    console.log(input);
+    const formData = new FormData();
+    formData.append('email',input.email);
+    formData.append('password',input.password);
+    formData.append('role',input.role);
+
+    try{
+      const response = await axios.post(`${host}/login`,formData,{
+        headers: {
+          "Content-Type":"application/json"
+        },
+        withCredentials:true,
+      });
+
+      if(response.data.success){
+        navigate("/");
+        alert(res.data.message);
+      }
+    } 
+    catch{
+      alert(res.data.message);
+    }
+
   }
 
   return (
