@@ -5,6 +5,7 @@ import { Input } from '../ui/input'
 import { RadioGroup } from '../ui/radio-group'
 import { Button } from '../ui/button'
 import { Link, useNavigate } from 'react-router-dom'
+import axios from 'axios'
 
 
 const Login = () => {
@@ -31,20 +32,20 @@ const Login = () => {
     formData.append('role',input.role);
 
     try{
-      const response = await axios.post(`${host}/login`,formData,{
+      const res = await axios.post(`${host}/login`,formData,{
         headers: {
           "Content-Type":"application/json"
         },
         withCredentials:true,
       });
 
-      if(response.data.success){
+      if(res.data.status){
         navigate("/");
-        alert(res.data.message);
+        console.log(res.data.message);
       }
     } 
-    catch{
-      alert(res.data.message);
+    catch(error){
+      console.log(error);
     }
 
   }
@@ -69,6 +70,7 @@ const Login = () => {
          <Label>Password</Label>
          <Input
            type="password"
+           name="password"
            value={input.password}
             onChange={changeEventHandler}
            placeholder="******"

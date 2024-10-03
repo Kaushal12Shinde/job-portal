@@ -32,29 +32,29 @@ const Signup = () => {
   const submitHandler = async (e) => {
     e.preventDefault();
     const formData = new FormData();
-      formData.append('fullname',input.fullname);
-      formData.append('email',input.email);
-      formData.append('password',input.password);
-      formData.append('phoneNumber',input.phoneNumber);
-      formData.append('role',input.role);
-      if(input.file){
-        formData.append('file',input.file);
-      }
+    formData.append('fullname',input.fullname);
+    formData.append('email',input.email);
+    formData.append('password',input.password);
+    formData.append('phoneNumber',input.phoneNumber);
+    formData.append('role',input.role);
+    if(input.file){
+      formData.append('file',input.file);
+    }
     try{
-      const response = await axios.post(`${host}/register`,formData,{
+      const res = await axios.post(`${host}/register`,formData,{
         headers: {
           "Content-Type":"multipart/form-data"
         },
         withCredentials:true,
       });
 
-      if(response.data.success){
+      if(res.data.status){
         navigate("/login");
-        alert(res.data.message);
+        console.log(res.data.message);
       }
     } 
-    catch{
-      alert(res.data.message);
+    catch(error){
+      console.log(error)
     }
   }
 
