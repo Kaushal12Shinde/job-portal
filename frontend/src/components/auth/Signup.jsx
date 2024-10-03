@@ -6,7 +6,6 @@ import { RadioGroup } from '../ui/radio-group'
 import { Button } from '../ui/button'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
-import { toast } from 'sonner'
 
 const Signup = () => {
   const host = 'http://localhost:8000/api/v1/user'
@@ -51,11 +50,11 @@ const Signup = () => {
 
       if(response.data.success){
         navigate("/login");
-        toast.success(res.data.message);
+        alert(res.data.message);
       }
     } 
     catch{
-      toast.success(res.data.message);
+      alert(res.data.message);
     }
   }
 

@@ -1,6 +1,4 @@
-import {Button} from './components/ui/button'
 import './App.css'
-import Navbar from './components/shared/Navbar'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Home from './components/Home'
 import Login from './components/auth/Login'
