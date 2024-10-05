@@ -6,6 +6,10 @@ import { RadioGroup } from '../ui/radio-group'
 import { Button } from '../ui/button'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import { useDispatch, useSelector } from 'react-redux'
+import { setLoading } from '@/redux/authSlice'
+import store from '@/redux/store'
+import { Loader2 } from 'lucide-react'
 
 
 const Login = () => {
@@ -13,6 +17,8 @@ const Login = () => {
   const host = 'http://localhost:8000/api/v1/user'
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const {loading} = useSelector(store =>  store.auth);
 
   const [input, setInput] = useState({
     email:'',
@@ -26,12 +32,14 @@ const Login = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
+
     const formData = new FormData();
     formData.append('email',input.email);
     formData.append('password',input.password);
     formData.append('role',input.role);
 
     try{
+      dispatch(setLoading(true));
       const res = await axios.post(`${host}/login`,formData,{
         headers: {
           "Content-Type":"application/json"
@@ -47,7 +55,9 @@ const Login = () => {
     catch(error){
       console.log(error);
     }
-
+    finally{
+      dispatch(setLoading(false));
+    }
   }
 
   return (
@@ -103,7 +113,12 @@ const Login = () => {
          </RadioGroup>
        </div>
        <div className='max-w-[300px] mx-auto'>
-         <Button type="submit" className='w-full my-4 bg-clrprime'>Login</Button>
+       {
+          loading ?
+            <Button type="submit" className='w-full my-4 bg-clrprime'><Loader2 className='mr-2  h-4 w-4'/> Please Wait</Button> 
+            : 
+            <Button type="submit" className='w-full my-4 bg-clrprime'>Login</Button>
+       }
        </div>
        <p className='text-center mb-0'>Don't have an account? <Link className='text-clrprime underline' to='/signup'>Sign Up</Link> </p>
       </form>  
